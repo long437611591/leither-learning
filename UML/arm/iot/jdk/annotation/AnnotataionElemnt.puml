@@ -1,0 +1,42 @@
+@startuml
+
+
+together {
+interface AnnotatedElement{}
+interface GenericDeclaration{
+TypeVariable<?>[] getTypeParameters();
+}
+
+interface Member{}
+class AccessibleObject{}
+
+abstract class Executable {}
+class Constructor<T>{}
+class Method<T>{}
+class Field{}
+
+class Class{}
+interface Type{}
+
+}
+
+
+
+AnnotatedElement<|--GenericDeclaration
+AnnotatedElement <|.. AccessibleObject
+
+AccessibleObject<|--Executable
+Member<|..Executable
+GenericDeclaration<|..Executable
+
+Executable<|-- Constructor
+Executable<|-- Method
+AccessibleObject<|--Field
+Member<|..Field
+Type<|...Class
+GenericDeclaration<|...Class
+AnnotatedElement<|...Class
+
+
+
+@enduml

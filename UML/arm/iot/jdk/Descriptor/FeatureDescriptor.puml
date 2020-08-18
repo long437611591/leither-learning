@@ -1,0 +1,25 @@
+@startuml
+
+class FeatureDescriptor{
+private Reference<? extends Class<?>> classRef;
+}
+
+class PropertyDescriptor{
+    private Reference<? extends Class<?>> propertyTypeRef;
+    private final MethodRef readMethodRef = new MethodRef();
+    private final MethodRef writeMethodRef = new MethodRef();
+    private Reference<? extends Class<?>> propertyEditorClassRef;
+}
+
+ class MethodDescriptor{
+     private final MethodRef methodRef = new MethodRef();
+     private String[] paramNames;
+     private List<WeakReference<Class<?>>> params;
+     private ParameterDescriptor parameterDescriptors[];
+      synchronized Method getMethod();
+ }
+
+FeatureDescriptor<|-- PropertyDescriptor
+FeatureDescriptor<|-- MethodDescriptor
+
+@enduml

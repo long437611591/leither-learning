@@ -1,0 +1,35 @@
+@startuml
+
+interface BeanMetadataElement{
+  Object getSource() note 'for configuration source object';
+}
+
+class BeanMetadataAttributeAccessor{
+}
+BeanMetadataElement <|.. BeanMetadataAttributeAccessor
+
+interface AttributeAccessor{
+ setAttribute(String name, @Nullable Object value);
+ Object getAttribute(String name);
+ boolean hasAttribute(String name);
+}
+abstract class AttributeAccessorSupport{
+private final Map<String, Object> attributes = new LinkedHashMap<>();
+
+}
+AttributeAccessor <|.. AttributeAccessorSupport
+AttributeAccessorSupport <|-- BeanMetadataAttributeAccessor
+
+abstract class AbstractBeanDefinition{
+}
+BeanMetadataAttributeAccessor<|-- AbstractBeanDefinition
+class RootBeanDefinition{}
+AbstractBeanDefinition<|-- RootBeanDefinition
+
+class PropertyValue{
+  	private final String name;
+  	@Nullable
+  	private final Object value;
+}
+BeanMetadataAttributeAccessor<|-- PropertyValue
+@enduml

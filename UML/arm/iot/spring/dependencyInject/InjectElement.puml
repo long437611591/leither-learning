@@ -1,0 +1,49 @@
+@startuml
+
+class InjectionMetadata{
+ inject(Object target, @Nullable String beanName, @Nullable PropertyValues pvs);
+}
+
+abstract class InjectedElement{
+   protected final Member member;
+   protected final boolean isField;
+   inject(Object target, @Nullable String requestingBeanName, @Nullable PropertyValues pvs);
+   checkPropertySkipping(@Nullable PropertyValues pvs);
+   inject(Object target, @Nullable String beanName, @Nullable PropertyValues pvs);
+}
+
+InjectedElement +-- InjectionMetadata
+InjectedElement o-- InjectionMetadata
+
+abstract class InstantiationAwareBeanPostProcessorAdapter{
+
+}
+interface MergedBeanDefinitionPostProcessor{
+void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName);
+}
+
+
+class AutowiredFieldElement{
+		private final boolean required;
+		private volatile boolean cached = false;
+		inject(Object bean, @Nullable String beanName, @Nullable PropertyValues pvs);
+}
+class AutowiredAnnotationBeanPostProcessor{
+	public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {...InjectionMetadata metadata = findAutowiringMetadata(beanName, beanType, null)};
+}
+AutowiredFieldElement +-- AutowiredAnnotationBeanPostProcessor
+InjectedElement <|-- AutowiredFieldElement
+
+class AutowiredMethodElement{
+		private final boolean required;
+		private volatile boolean cached = false;
+		inject(Object bean, @Nullable String beanName, @Nullable PropertyValues pvs);
+}
+InjectedElement <|-- AutowiredMethodElement
+AutowiredMethodElement +-- AutowiredAnnotationBeanPostProcessor
+
+MergedBeanDefinitionPostProcessor <|-- AutowiredAnnotationBeanPostProcessor
+InstantiationAwareBeanPostProcessorAdapter <|..  AutowiredAnnotationBeanPostProcessor
+
+
+@enduml

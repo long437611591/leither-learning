@@ -1,0 +1,59 @@
+@startuml
+
+
+together {
+
+class ConfigurationClassPostProcessor{
+ void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) ;
+
+}
+}
+class ConfigurationClassEnhancer{
+static final CallBack[] CALLBACKS;
+Class<?> enhance(Class<?> configClass, @Nullable ClassLoader classLoader);
+private Enhancer newEnhancer(Class<?> configSuperClass, @Nullable ClassLoader classLoader);
+}
+
+together {
+
+  interface MethodInterceptor{
+   Object intercept(Object var1, Method var2, Object[] var3, MethodProxy var4);
+  }
+  class BeanMethodInterceptor{}
+  class BeanFactoryAwareMethodInterceptor{}
+
+  interface CallBack{}
+  interface ConditionalCallback{
+  boolean isMatch(Method candidateMethod);
+  }
+  interface CallbackFilter{
+      int accept(Method var1);
+      boolean equals(Object var1);
+  }
+  class ConditionalCallbackFilter{
+
+  }
+
+  CallBack <|--- ConditionalCallback
+  CallBack <|--- MethodInterceptor
+  CallbackFilter <|... ConditionalCallbackFilter
+  ConditionalCallbackFilter o---CallBack
+  ConfigurationClassEnhancer o---CallBack
+
+  MethodInterceptor <|... BeanMethodInterceptor
+  MethodInterceptor <|... BeanFactoryAwareMethodInterceptor
+
+  ConditionalCallback <|... BeanMethodInterceptor
+  ConditionalCallback <|... BeanFactoryAwareMethodInterceptor
+  ConfigurationClassEnhancer +--- ConditionalCallbackFilter
+
+}
+
+
+
+
+
+
+
+
+@enduml

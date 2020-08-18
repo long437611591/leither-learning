@@ -1,0 +1,30 @@
+@startuml
+
+interface ApplicationContext{}
+interface  ConfigurableApplicationContext{}
+abstract class AbstractApplicationContext{}
+class GenericApplicationContext{
+DefaultListableBeanFactory beanFactory;
+}
+class AnnotationConfigApplicationContext{
+registerBean(@Nullable String beanName, Class<T> beanClass,@Nullable Supplier<T> supplier, BeanDefinitionCustomizer... customizers);
+}
+GenericApplicationContext<|-- AnnotationConfigApplicationContext
+abstract class AbstractRefreshableApplicationContext{
+private DefaultListableBeanFactory beanFactory;
+}
+AbstractApplicationContext<|-- AbstractRefreshableApplicationContext
+
+
+Supplier o-- GenericApplicationContext
+
+ConfigurableApplicationContext <|.. AbstractApplicationContext
+
+ApplicationContext<|-- ConfigurableApplicationContext
+
+AbstractApplicationContext<|-- GenericApplicationContext
+interface BeanDefinitionRegistry{}
+interface Supplier{}
+BeanDefinitionRegistry<|.. GenericApplicationContext
+
+@enduml

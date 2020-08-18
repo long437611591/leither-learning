@@ -1,0 +1,21 @@
+@startuml
+'start
+
+:         java class
+ +  configuration metadata;
+
+: spring beandefinition;
+
+if (a) then
+: constructor;
+elseif (b) then
+: initialization according to
+  the factorymethodname and factorybeanname
+     from beandefinition;
+else (c)
+: 123;
+endif
+'end
+
+
+@enduml

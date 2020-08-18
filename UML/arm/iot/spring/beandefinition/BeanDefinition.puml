@@ -1,0 +1,62 @@
+@startuml
+
+together {
+ interface BeanMetadataElement{
+ Obejct getSource() ;
+ }
+interface AttributeAccessor{}
+interface BeanDefinition{
+}
+
+BeanMetadataElement <--  BeanDefinition
+AttributeAccessor <--  BeanDefinition
+}
+
+abstract class AbstractBeanDefinition{}
+BeanDefinition <|.. AbstractBeanDefinition
+
+
+ class GenericBeanDefinition{
+ private String parentName;
+ }
+ class RootBeanDefinition{}
+ class ChildBeanDefinition{}
+
+ AbstractBeanDefinition <|-- GenericBeanDefinition
+ AbstractBeanDefinition <|-- RootBeanDefinition
+ AbstractBeanDefinition <|-- ChildBeanDefinition
+
+interface AnnotatedBeanDefinition{
+AnnotationMetadata getMetadata();
+
+
+}
+class ScannedGenericBeanDefinition{
+AnnotationMetadata metadata;
+
+}
+
+BeanDefinition <|-- AnnotatedBeanDefinition
+
+class AnnotatedGenericBeanDefinition{}
+AnnotatedBeanDefinition <|.. AnnotatedGenericBeanDefinition
+GenericBeanDefinition <|-- AnnotatedGenericBeanDefinition
+
+GenericBeanDefinition <|.. ScannedGenericBeanDefinition
+
+interface MetadataReader{
+AnnotationMetadata getAnnotationMetadata();
+}
+
+class SimpleMetadataReader{}
+class SimpleAnnotationMetadataReadingVisitor{
+ SimpleAnnotationMetadata getMetadata();
+}
+MetadataReader<|.. SimpleMetadataReader
+
+SimpleAnnotationMetadataReadingVisitor o-- SimpleMetadataReader
+
+
+MetadataReader o-- ScannedGenericBeanDefinition
+
+@enduml

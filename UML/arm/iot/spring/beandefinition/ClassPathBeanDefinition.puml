@@ -1,0 +1,42 @@
+@startuml
+
+
+together {
+class ClassPathBeanDefinitionScanner{
+BeanDefinitionRegistry registry;
+Set<BeanDefinitionHolder> doScan(String... basePackages);
+}
+
+interface BeanDefinitionRegistry{}
+class DefaultListableBeanFactory{}
+abstract class AbstractAutowireCapableBeanFactory{}
+
+class ApplicationContext{}
+interface ServletContext{}
+
+class  ClassPathScanningCandidateComponentProvider{
+Set<BeanDefinition> findCandidateComponents(String basePackage);
+Set<BeanDefinition> scanCandidateComponents(String basePackage);
+}
+
+interface ResourceLoaderAware{
+setResourceLoader(ResourceLoader resourceLoader);
+}
+interface  EnvironmentCapable{
+Environment getEnvironment();
+}
+
+EnvironmentCapable <|..  ClassPathScanningCandidateComponentProvider
+ResourceLoaderAware <|..  ClassPathScanningCandidateComponentProvider
+
+ClassPathScanningCandidateComponentProvider <|-- ClassPathBeanDefinitionScanner
+BeanDefinitionRegistry <|.. DefaultListableBeanFactory
+AbstractAutowireCapableBeanFactory <|-- DefaultListableBeanFactory
+BeanDefinitionRegistry o-- ClassPathBeanDefinitionScanner
+
+ApplicationContext o-- ClassPathBeanDefinitionScanner
+ServletContext <|.. ApplicationContext
+}
+
+
+@enduml
